@@ -6,6 +6,7 @@
   Define sections of code into functions and then call those functions
 */
 
+//separate objects for the location, speed and colors of the ball
 let circleLoc = {
   x: 0,
   y: 200
@@ -29,13 +30,13 @@ function setup() {
 
 function draw() {
   background(0);
-	displayCircle();
+  displayCircle();
   bounce();
   move();
 }
 
 function displayCircle(){
-	noFill();
+  noFill();
   stroke(colors.r, colors.g, colors.b, colors.a);
   strokeWeight(40);
   ellipse(circleLoc.x, circleLoc.y, 100, 100);
