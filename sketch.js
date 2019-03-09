@@ -12,22 +12,28 @@
 let circleLoc = {
   x: 0,
   y: 200,
-  speedX: 3,
-  speedY: -3,
+  speedX: 4,
+  speedY: -5,
   r: 255,
   g: 255,
   b: 255,
   a: 100,
+  randomRBColor: function(){
+    this.r = random(100, 255);
+    this.b = random(100, 255);
+  },
+  randomGAColor: function(){
+    this.g = random(100, 255);
+    this.a = random(100, 255);
+  },
   bounce: function() {
-    if (this.y < 0 || this.y > height) {
+    if (this.y < 0 || this.y > height || this.y < mouseY) {
       this.speedY = this.speedY * -1;
-      this.r = random(100, 255);
-      this.b = random(100, 255);
+      this.randomRBColor();
     }
-    if (this.x > width || this.x < 0) {
+    if (this.x > width || this.x < 0 || this.x < mouseX) {
       this.speedX = this.speedX * -1;
-      this.g = random(100, 255);
-      this.a = random(100, 255);
+      this.randomGAColor();
     }
   },
   move: function() {
@@ -39,28 +45,34 @@ let circleLoc = {
     stroke(this.r, this.g, this.b, this.a);
     strokeWeight(40);
     ellipse(this.x, this.y, 100, 100);
-  }
+  },
 }
 
 let circleLoc2 = {
   x: 600,
   y: 200,
-  speedX: -3,
-  speedY: 3,
+  speedX: -5,
+  speedY: 6,
   r: 255,
   g: 255,
   b: 255,
   a: 100,
+  randomRBColor: function(){
+    this.r = random(100, 255);
+    this.b = random(100, 255);
+  },
+  randomGAColor: function(){
+    this.g = random(100, 255);
+    this.a = random(100, 255);
+  },
   bounce: function() {
-    if (this.y < 0 || this.y > height) {
+    if (this.y < 0 || this.y > height || this.y < mouseY) {
       this.speedY = this.speedY * -1;
-      this.r = random(100, 255);
-      this.b = random(100, 255);
+      this.randomRBColor();
     }
-    if (this.x > width || this.x < 0) {
+    if (this.x > width || this.x < 0 || this.x < mouseX) {
       this.speedX = this.speedX * -1;
-      this.g = random(100, 255);
-      this.a = random(100, 255);
+      this.randomGAColor();
     }
   },
   move: function() {
@@ -72,45 +84,52 @@ let circleLoc2 = {
     stroke(this.r, this.g, this.b, this.a);
     strokeWeight(40);
     ellipse(this.x, this.y, 100, 100);
-  }
+  },
 }
 
-//if the distance between the balls is < the distance between
-//both centers when the balls touch, then bounce
+
 let ballInteraction = {
-  distance:0,
-  oppositeSpeedX: function(){
+  distance: 0,
+  oppositeSpeedX: function() {
     circleLoc.speedX = circleLoc.speedX * -1;
     circleLoc2.speedX = circleLoc2.speedX * -1;
   },
-  oppositeSpeedY: function () {
+  oppositeSpeedY: function() {
     circleLoc.speedY = circleLoc.speedY * -1;
     circleLoc2.speedY = circleLoc2.speedY * -1;
   },
-  randomBounce:  function () { circleLoc.speedX = random(0, 8);
+  randomBounce: function() {
+    circleLoc.speedX = random(0, 8);
     circleLoc.speedY = random(0, 8);
-
     circleLoc2.speedX = random(0, 8);
     circleLoc2.speedY = random(0, 8);
   },
+  randomRestart: function() {
+    circleLoc.x = random(200)
+    circleLoc.y = random(600);
+    circleLoc2.x = random(200);
+    circleLoc2.y = random(600);
+  },
+  //if the distance between the balls is < the distance between
+  //both centers when the balls touch, then bounce
   deflect: function() {
     this.distance = Math.sqrt((circleLoc.x - circleLoc2.x) * (circleLoc.x - circleLoc2.x) + (circleLoc.y - circleLoc2.y) * (circleLoc.y - circleLoc2.y))
+
     if (this.distance < 142) {
+
       //cover the logic if balls are going in opposite directions (speedX of both balls are opposite pos/neg or speedY of both balls are opposite pos/neg)
-      if ((circleLoc.speedX < 0 && circleLoc2.speedX > 0) || (circleLoc.speedX > 0 && circleLoc2.speedX < 0)){
-      	this.oppositeSpeedX();
+      if ((circleLoc.speedX < 0 && circleLoc2.speedX > 0) || (circleLoc.speedX > 0 && circleLoc2.speedX < 0)) {
+        this.oppositeSpeedX();
+        circleLoc.randomRBColor();
+        circleLoc2.randomRBColor();
       }
-      else if ((circleLoc.speedY < 0 && circleLoc2.speedY > 0) || (circleLoc.speedY > 0 && circleLoc2.speedY < 0)){
+      if ((circleLoc.speedY < 0 && circleLoc2.speedY > 0) || (circleLoc.speedY > 0 && circleLoc2.speedY < 0)) {
         this.oppositeSpeedY();
-      }
-      else {
-        //this.oppositeSpeedX();
-        //this.oppositeSpeedY();
+        circleLoc.randomGAColor();
+        circleLoc2.randomGAColor();
       }
     }
   }
-
-
 }
 
 function setup() {
