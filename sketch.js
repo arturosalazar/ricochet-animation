@@ -8,6 +8,7 @@
   Balls bounce off of each other more realistically (if going in opposite directions, they will bounce away
   in opposite directions
 */
+
 let circleLoc = {
   x: 0,
   y: 200,
@@ -30,8 +31,8 @@ let circleLoc = {
     }
   },
   move: function() {
-    this.x = this.x + this.speedX
-    this.y = this.y + this.speedY
+    this.x = this.x + this.speedX;
+    this.y = this.y + this.speedY;
   },
   displayCircle: function() {
     noFill();
@@ -63,8 +64,8 @@ let circleLoc2 = {
     }
   },
   move: function() {
-    this.x = this.x + this.speedX
-    this.y = this.y + this.speedY
+    this.x = this.x + this.speedX;
+    this.y = this.y + this.speedY;
   },
   displayCircle: function() {
     noFill();
@@ -84,21 +85,18 @@ let ballInteraction = {
       //cover the logic if balls are going in opposite directions (speedX of both balls are opposite pos/neg or speedY of both balls are opposite pos/neg)
       if ((circleLoc.speedX < 0 && circleLoc2.speedX > 0) || (circleLoc.speedX > 0 && circleLoc2.speedX < 0)){
       	this.oppositeSpeedX();
-      }
-      else if ((circleLoc.speedY < 0 && circleLoc2.speedY > 0) || (circleLoc.speedY > 0 && circleLoc2.speedY < 0)){
+      } else if ((circleLoc.speedY < 0 && circleLoc2.speedY > 0) || (circleLoc.speedY > 0 && circleLoc2.speedY < 0)){
         this.oppositeSpeedY();
       }
-
       //cover the logic if balls are going in the same direction
       else if ((circleLoc.speedY > 0 && circleLoc2.speedY > 0) || (circleLoc.speedY < 0 && circleLoc2.speedY < 0)){
-      		this.oppositeSpeedX();
-          this.oppositeSpeedY();
-        }
-			else if ((circleLoc.speedX > 0 && circleLoc2.speedX > 0) || (circleLoc.speedX < 0 && circleLoc2.speedX < 0)){
-      		this.oppositeSpeedX();
-          this.oppositeSpeedY();
-        }
+      	this.oppositeSpeedX();
+        this.oppositeSpeedY();
+      } else if ((circleLoc.speedX > 0 && circleLoc2.speedX > 0) || (circleLoc.speedX < 0 && circleLoc2.speedX < 0)){
+      	this.oppositeSpeedX();
+        this.oppositeSpeedY();
       }
+    }
 
   },
   oppositeSpeedX: function(){
