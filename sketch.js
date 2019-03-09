@@ -5,9 +5,9 @@
   Use object to contain functions for a bouncing ball
   i.e. create methods on the object
   
-  Balls bounce off of each other more realistically
+  Balls bounce off of each other more realistically (if going in opposite directions, they will bounce away
+  in opposite directions
 */
-
 let circleLoc = {
   x: 0,
   y: 200,
@@ -74,32 +74,42 @@ let circleLoc2 = {
   }
 }
 
-//if the distance between the balls is < the distance between 
+//if the distance between the balls is < the distance between
 //both centers when the balls touch, then bounce
 let ballInteraction = {
   distance:0,
   deflect: function() {
     this.distance = Math.sqrt((circleLoc.x - circleLoc2.x) * (circleLoc.x - circleLoc2.x) + (circleLoc.y - circleLoc2.y) * (circleLoc.y - circleLoc2.y))
-    if (this.distance < 141) {
+    if (this.distance < 145) {
       //cover the logic if balls are going in opposite directions (speedX of both balls are opposite pos/neg or speedY of both balls are opposite pos/neg)
-      //TODO: Circles sometimes get caught together and bounce back and forth "on top" of each other. Look on how to fix
-      if (circleLoc.speedX < 0 && circleLoc2.speedX > 0){
-      	circleLoc.speedX = circleLoc.speedX * -1;
-      	circleLoc2.speedX = circleLoc2.speedX * -1;
-      } else if (circleLoc.speedX > 0 && circleLoc2.speedX < 0){
-      	circleLoc.speedX = circleLoc.speedX * -1;
-      	circleLoc2.speedX = circleLoc2.speedX * -1;
-      }     
-      if (circleLoc.speedY < 0 && circleLoc2.speedY > 0){
-          circleLoc.speedY = circleLoc.speedY * -1;
-      		circleLoc2.speedY = circleLoc2.speedY * -1;
-      } else if (circleLoc.speedY > 0 && circleLoc2.speedY < 0){
-          circleLoc.speedY = circleLoc.speedY * -1;
-      		circleLoc2.speedY = circleLoc2.speedY * -1;
+      if ((circleLoc.speedX < 0 && circleLoc2.speedX > 0) || (circleLoc.speedX > 0 && circleLoc2.speedX < 0)){
+      	this.oppositeSpeedX();
       }
-      //TODO: Add functionality if they're both going in the same direction
-    }
+      else if ((circleLoc.speedY < 0 && circleLoc2.speedY > 0) || (circleLoc.speedY > 0 && circleLoc2.speedY < 0)){
+        this.oppositeSpeedY();
+      }
+
+      //cover the logic if balls are going in the same direction
+      else if ((circleLoc.speedY > 0 && circleLoc2.speedY > 0) || (circleLoc.speedY < 0 && circleLoc2.speedY < 0)){
+      		this.oppositeSpeedX();
+          this.oppositeSpeedY();
+        }
+			else if ((circleLoc.speedX > 0 && circleLoc2.speedX > 0) || (circleLoc.speedX < 0 && circleLoc2.speedX < 0)){
+      		this.oppositeSpeedX();
+          this.oppositeSpeedY();
+        }
+      }
+
+  },
+  oppositeSpeedX: function(){
+    circleLoc.speedX = circleLoc.speedX * -1;
+    circleLoc2.speedX = circleLoc2.speedX * -1;
+	},
+  oppositeSpeedY: function () {
+  	circleLoc.speedY = circleLoc.speedY * -1;
+  	circleLoc2.speedY = circleLoc2.speedY * -1;
   }
+
 }
 
 function setup() {
@@ -115,7 +125,7 @@ function draw() {
   circleLoc2.displayCircle();
   circleLoc2.bounce();
   circleLoc2.move();
-  
+
   ballInteraction.deflect();
 
 }
